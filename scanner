@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+import socket
+import sys
+
+def scan(conn,ip):
+    for port in range(1,65535):
+        try:
+            conn.connect((ip,port))
+            conn.close()
+            print("Found: {}".format(port))
+        except:
+            pass
+
+if __name__ == '__main__':
+    # Arguments check for input
+    if len(sys.argv) != 2:
+        print("The argument is not enough...")
+        exit(1) 
+    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    ip=sys.argv[1];
+    scan(s,ip)
