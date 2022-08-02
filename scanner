@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 import socket
 import sys
+import time
 
-def scan(conn,ip):
-    for port in range(1,65535):
-        try:
-            conn.connect((ip,port))
-            conn.close()
-            print("Found: {}".format(port))
-        except:
-            pass
+def scan(conn,ip,port):
+    try:
+        conn.connect((ip,port))
+        conn.close()
+        print("Found: {}".format(port))
+    except:
+        pass
 
 if __name__ == '__main__':
     # Arguments check for input
@@ -17,5 +17,9 @@ if __name__ == '__main__':
         print("The argument is not enough...")
         exit(1) 
     s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.settimeout(2)
     ip=sys.argv[1];
-    scan(s,ip)
+    for port in range(1,65535):
+        print("Testing: {}".format(port),end='\r')
+        time.sleep(0.1)
+        scan(s,ip,port)
